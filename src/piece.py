@@ -4,16 +4,19 @@ class Piece():
 
 
     def __init__(self, colour, position, board):
-        self.position = position
         self.x = position[0]
         self.y = position[1]
         assert colour in ['black','white'], 'colour is not black or white'
         self.colour = colour
         self.board = board
         self.ID = self.board.add_piece(self)
-        self.vision_grid = self.get_vision_grid()
 
-    def get_vision_grid(self):
+    @property
+    def position(self):
+        return [self.x,self.y]
+
+    @property
+    def vision_grid(self):
         grid = np.zeros(self.board.shape,dtype='bool')
         x_0, y_0 = self.position
         grid[x_0,:] = True
@@ -45,9 +48,12 @@ class Piece():
 
 
     def is_valid(self):
-        other_colour = [col for col in ['black','white'] if col!=self.colour][0]
-        for piece in self.board.pieces[other_colour]:
-            vis_grid = piece.get_vision_grid()
+        if self.colour=='black':
+            other_pieces = self.board.white_pieces
+        elif self.colour=='white':
+            other_pieces = self.board.black_pieces
+        for piece in other_pieces:
+            vis_grid = piece.vision_grid
             if vis_grid[self.x,self.y]:
                 return False
         return True
@@ -66,6 +72,7 @@ if __name__=='__main__':
     piece_w1 = Piece('white',[16,10],board)
     piece_b1 = Piece('black',[15,12],board)
     piece_b2 = Piece('black',[ 2, 2],board)
+    piece_b3 = Piece('black',[10, 4],board)
     print(board)
     print(piece_w1.is_valid())
     print(piece_b1.is_valid())
