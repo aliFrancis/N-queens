@@ -23,14 +23,14 @@ class Piece():
         grid[:,y_0] = True
         upperleft,upperright,lowerleft,lowerright = self._diagonal_intersections()
 
-        diag_start = upperleft[1]+grid.shape[0]*upperleft[0]
-        diag_end = lowerright[1]+grid.shape[0]*lowerright[0]
+        diag_start = upperleft[1]+grid.shape[1]*upperleft[0]
+        diag_end = lowerright[1]+grid.shape[1]*lowerright[0]
 
-        anti_diag_start = lowerleft[1]+grid.shape[0]*lowerleft[0]
-        anti_diag_end = upperright[1]+grid.shape[0]*upperright[0]
+        anti_diag_start = lowerleft[1]+grid.shape[1]*lowerleft[0]
+        anti_diag_end = upperright[1]+grid.shape[1]*upperright[0]
 
-        grid.ravel()[diag_start:diag_end+1:self.board.shape[0]+1] = True
-        grid.ravel()[anti_diag_start:anti_diag_end+1:self.board.shape[0]-1] = True
+        grid.ravel()[diag_start:diag_end+1:self.board.shape[1]+1] = True
+        grid.ravel()[anti_diag_start:anti_diag_end+1:self.board.shape[1]-1] = True
 
         return grid
 
@@ -43,9 +43,8 @@ class Piece():
         upperleft  = [max(0,x_0-y_0),max(0,y_0-x_0)]
         upperright = [min(x_0+y_0,self.board.shape[0]-1), max(0,x_0 + y_0 + 1 - self.board.shape[0])]
         lowerleft  = [max(0,x_0+y_0+1-self.board.shape[1]), min(x_0 + y_0,self.board.shape[1]-1)]
-        lowerright = [min(self.board.shape[0]-1,self.board.shape[1]+x_0-y_0), min(self.board.shape[1]-1,self.board.shape[0]+y_0-x_0)]
+        lowerright = [min(self.board.shape[0]-1,self.board.shape[1]+x_0-y_0-1), min(self.board.shape[1]-1,self.board.shape[0]+y_0-x_0-1)]
         return  upperleft,upperright,lowerleft,lowerright
-
 
     def is_valid(self):
         if self.colour=='black':
@@ -58,23 +57,13 @@ class Piece():
                 return False
         return True
 
-
-    def move_to(self,position):
-        self.position = position
-        self.x = position[0]
-        self.y = position[1]
-        self.board.move_piece(self.ID,position)
-
+    def move_to(self,new_position):
+        self.board.move_piece(self.ID,new_position)
 
 if __name__=='__main__':
-    import board
-    board = board.Board(20)
-    piece_w1 = Piece('white',[16,10],board)
-    piece_b1 = Piece('black',[15,12],board)
-    piece_b2 = Piece('black',[ 2, 2],board)
-    piece_b3 = Piece('black',[10, 4],board)
+    from NQueens.board import Board
+    board = Board([12,14])
+    w1 = Piece('white',[0,13],board)
+    print(w1._diagonal_intersections())
     print(board)
-    print(piece_w1.is_valid())
-    print(piece_b1.is_valid())
-    print(piece_b2.is_valid())
-    print(board.is_valid())
+    print(board.white_vision_grid.T)
