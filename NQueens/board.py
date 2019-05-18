@@ -100,14 +100,14 @@ class Board():
 
     @property
     def black_vision_grid(self):
-        black_vision_grid=np.zeros(self.shape)
+        black_vision_grid=np.zeros(self.shape,dtype='bool')
         for piece in self.black_pieces:
             black_vision_grid+=piece.vision_grid
         return black_vision_grid
 
     @property
     def white_vision_grid(self):
-        white_vision_grid=np.zeros(self.shape)
+        white_vision_grid=np.zeros(self.shape,dtype='bool')
         for piece in self.white_pieces:
             white_vision_grid+=piece.vision_grid
         return white_vision_grid

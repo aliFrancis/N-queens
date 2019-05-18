@@ -59,11 +59,3 @@ class Piece():
 
     def move_to(self,new_position):
         self.board.move_piece(self.ID,new_position)
-
-if __name__=='__main__':
-    from NQueens.board import Board
-    board = Board([12,14])
-    w1 = Piece('white',[0,13],board)
-    print(w1._diagonal_intersections())
-    print(board)
-    print(board.white_vision_grid.T)
