@@ -4,6 +4,7 @@ from NQueens.board import Board
 
 import numpy as np
 
+
 def test_is_valid():
     board = Board(10)
     w1 = Piece('white',[5,2],board)

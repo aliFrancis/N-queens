@@ -1,5 +1,6 @@
 from NQueens.board import Board
 
+
 class Population():
 
     def __init__(self, pop_limits=[100,100], boards = None, board_shape = [8,8]):

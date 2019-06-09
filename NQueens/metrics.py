@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def is_valid(board):
     return int(board.is_valid())
 

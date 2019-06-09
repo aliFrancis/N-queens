@@ -1,7 +1,7 @@
 import numpy as np
 
-class Piece():
 
+class Piece():
 
     def __init__(self, colour, position, board):
         self.x = position[0]

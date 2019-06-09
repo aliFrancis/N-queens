@@ -1,5 +1,6 @@
 import pandas as pd
 
+
 class Scoreboard():
     def __init__(self,population,metric_dict):
         self.population = population
