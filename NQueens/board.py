@@ -32,10 +32,10 @@ class Board():
     def white_pieces(self):
         return [piece for piece in self.pieces if piece.colour=='white']
 
-    def is_valid(self):
+    def is_peaceable(self):
         condition = True
         for piece in self.black_pieces:
-            condition = piece.is_valid()
+            condition = piece.is_peaceable()
             if not condition:
                 return False
         return True
@@ -49,7 +49,9 @@ class Board():
     def add_piece(self,piece):
         ID = self.next_free_ID()
         self.pieces.append(piece)
-        assert not self.is_filled_at(piece.position), 'Piece placed in already occupied position'
+        if self.is_filled_at(piece.position):
+            position_ID = self.piece_at(piece.position).ID
+            raise ValueError('Piece {} placed in already occupied position occupied by {}'.format(ID,position_ID))
         if piece.colour=='black':
             self.grid[piece.x,piece.y,0] = True
         elif piece.colour=='white':
@@ -69,6 +71,14 @@ class Board():
         del self.pieces[piece_index]
         if reassign_IDs:
             self.reassign_IDs()
+
+    def piece_at(self,position):
+        if not self.is_filled_at(position):
+            return None
+        else:
+            for piece in self.pieces:
+                if piece.position==position:
+                    return piece
 
     def is_filled_at(self,position):
         if any(self.grid[position[0],position[1]]):

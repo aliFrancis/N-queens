@@ -1,7 +1,7 @@
 from NQueens.board import Board
 
 
-class Population():
+class Population:
 
     def __init__(self, pop_limits=[100,100], boards = None, board_shape = [8,8]):
         self.pop_limits = pop_limits
@@ -27,6 +27,12 @@ class Population():
         return len(self.boards)
 
     def add_board(self,board):
-        assert len(self)<pop_limits[1], 'Cannot add board, at population cap!'
-        assert board.shape == self.board_shape
+        if  len(self)>=pop_limits[1]:
+            raise Error('Cannot add board, at population cap!')
+        if not board.shape == self.board_shape:
+            raise ValueError('Board\'s shape not compatible with population')
+
         self.boards.append(board)
+
+    def remove_boards(self,index):
+        

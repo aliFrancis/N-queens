@@ -1,8 +1,8 @@
 import numpy as np
 
 
-def is_valid(board):
-    return int(board.is_valid())
+def is_peaceable(board):
+    return int(board.is_peaceable())
 
 def piece_count(board):
     return len(board.pieces)

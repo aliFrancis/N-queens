@@ -1,20 +1,30 @@
 from NQueens.piece import Piece
 from NQueens.board import Board
 import matplotlib.pyplot as plt
+import pytest
 
-def test_Piece():
+def test_Piece_initialization():
     board = Board(20)
     w1 = Piece('white',[5,2],board)
-
-    assert w1.is_valid()
 
     assert w1.x == 5
     assert w1.y == 2
     assert w1.position == [5,2]
-    w1.move_to([5,3])
-    assert w1.x == 5
+
+    with pytest.raises(ValueError):
+        Piece('black',[-1,-1],board)
+    with pytest.raises(ValueError):
+        Piece('not_white_or_black',[1,1],board)
+    with pytest.raises(ValueError):
+        Piece('black',[5,2],board)
+
+def test_Piece_movement():
+    board = Board(20)
+    w1 = Piece('white',[5,2],board)
+    w1.move_to([4,3])
+    assert w1.x == 4
     assert w1.y == 3
-    assert w1.position == [5,3]
+    assert w1.position == [4,3]
 
 def test_Piece_diagonal_intersections():
     board = Board([40,60])

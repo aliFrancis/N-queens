@@ -5,13 +5,13 @@ from NQueens.board import Board
 import numpy as np
 
 
-def test_is_valid():
+def test_is_peaceable():
     board = Board(10)
     w1 = Piece('white',[5,2],board)
     b1 = Piece('black',[9,3],board)
-    assert metrics.is_valid(board)
+    assert metrics.is_peaceable(board)
     b2 = Piece('black',[7,4],board)
-    assert not metrics.is_valid(board)
+    assert not metrics.is_peaceable(board)
 
 def test_piece_count():
     board = Board(8)

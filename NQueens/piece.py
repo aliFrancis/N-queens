@@ -6,9 +6,12 @@ class Piece():
     def __init__(self, colour, position, board):
         self.x = position[0]
         self.y = position[1]
-        assert colour in ['black','white'], 'colour is not black or white'
+        if not colour in ['black','white']:
+            raise ValueError('{} is not black or white'.format(colour))
         self.colour = colour
         self.board = board
+        if not self.is_within_board():
+            raise ValueError('Position outside of board\'s extent')
         self.ID = self.board.add_piece(self)
 
     @property
@@ -46,7 +49,13 @@ class Piece():
         lowerright = [min(self.board.shape[0]-1,self.board.shape[1]+x_0-y_0-1), min(self.board.shape[1]-1,self.board.shape[0]+y_0-x_0-1)]
         return  upperleft,upperright,lowerleft,lowerright
 
-    def is_valid(self):
+    def is_within_board(self):
+        if self.x>=0 and self.y>=0 and self.x<self.board.shape[0] and self.y<self.board.shape[1]:
+            return True
+        else:
+            return False
+
+    def is_peaceable(self):
         if self.colour=='black':
             other_pieces = self.board.white_pieces
         elif self.colour=='white':

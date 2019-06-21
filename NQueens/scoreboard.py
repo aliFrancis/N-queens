@@ -9,5 +9,8 @@ class Scoreboard():
         for name,metric_func in zip(self.metric_names,self.metric_funcs):
             self.table[name] = pd.Series([metric_func(board) for board in self.population[:]], index=self.table.index)
 
-    def sort_by(metric_names):
+    def sort_by(self,metric_names):
         self.table.sort_values(by=metric_names,inplace=True)
+
+    def __getitem__(self,index):
+        return self.table.iloc[index,:]
